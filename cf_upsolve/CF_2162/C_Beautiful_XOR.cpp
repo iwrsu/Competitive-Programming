@@ -125,25 +125,8 @@ int binpow(int a, int b) {
 
 void solve()
 {
-    int n; cin >> n;
-    vector<char>a(n), b(n);
-    for (char& c : a)cin >> c;
-    for (char& c : b)cin >> c;
-    bool fa = count(begin(a), end(a), '1') % 2;
-    bool fb = count(begin(b), end(b), '1') % 2;
-    if (fa == fb) {
-        cout << "Tie";
-        return;
-    }
-    for (int i = n - 1; i >= 0; i--) {
-        if (a[i] == b[i]) continue;
-        if (i % 2) {
-            cout << "Mai";
-        }
-        else cout << "Ajisai";
-        return;
-    }
-} 
+    
+}
 
 int32_t main()
 {

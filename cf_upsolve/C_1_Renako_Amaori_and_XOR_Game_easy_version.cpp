@@ -141,15 +141,37 @@ void solve()
     }
 
     arr[0]=a,arr[1]=m;
+    
+    if(!arr[0]&&!arr[1])
+    {
+        for(int i=0;i<n;i++)
+        {
+            if(!(i&1)&&arr[0]==0)
+            {
+                if(v2[i]) swap(v2[i],v1[i]);
+                arr[0]=1;
+            }
+            else if(arr[1]==0)
+            {
+                if(v1[i]) swap(v1[i],v2[i]);
+                arr[1]=1;
+            }
+        }
+        
+    }
+    rep(i,0,n)
+    {
+        if(i&1) m^=v2[i];
+        else a^=v1[i];
+    }
+
+    arr[0]=a,arr[1]=m;
     if(arr[0]&&arr[1]){
         cout<<"Tie";
         return;
     }
+    
 
-    for(int i=0;i<n;i++)
-    {
-               
-    }
 }
 
 int32_t main()

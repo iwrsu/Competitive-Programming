@@ -125,28 +125,15 @@ int binpow(int a, int b) {
 
 void solve()
 {
-    int n;
-    cin>>n;
-    vi a(n),b(n);
-    cin>>a;
-    cin>>b;
-    int a_ans=0,b_ans=0;
-    rep(i,0,n) {
-        a_ans^=a[i];
-        b_ans^=b[i];
+    int a,b;
+    cin>>a>>b;
+    if((a&1)&&(b&1)) cout<<a*b+1;
+    else if(!(a&1)&&(b&1)) cout<<-1;
+    else {
+        int k=b/2;
+        int ans=(a*k)+(b/k);
+        cout<<((ans&1)?-1:ans);
     }
-    // cout<<a_ans<<" "<<b_ans;
-    if(a_ans==b_ans)
-    {
-        cout<<"Tie";
-        return;
-    }
-    rrep(i,n-1,0)
-    {
-        
-    }
-    if(a_ans) cout<<"Ajisai";
-    else cout<<"Mai";
 }
 
 int32_t main()

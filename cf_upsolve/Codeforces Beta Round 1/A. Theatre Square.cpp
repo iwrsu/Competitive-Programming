@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
 using ll = long long;
@@ -32,6 +32,11 @@ ll binpow(ll a, ll b, ll mod = MOD) {
 
 void solve() {
     // CURSOR
+    unsigned long long m=0,n=0,a=0;
+scanf("%d%d%d",&n,&m,&a);
+if(n%a)n=n/a+1;else n=n/a;
+if(m%a)m=m/a+1;else m=m/a;
+printf("%llu",m*n);
 }
 
 int main() {
@@ -39,7 +44,7 @@ int main() {
     cin.tie(nullptr);
 
     int t = 1;
-    cin >> t;
+    
     while (t--) {
         solve();
         cout << '\n';

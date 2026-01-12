@@ -31,7 +31,7 @@ ll binpow(ll a, ll b, ll mod = MOD) {
 }
 
 void solve() {
-    // CURSOR
+    // write logic here
 }
 
 int main() {

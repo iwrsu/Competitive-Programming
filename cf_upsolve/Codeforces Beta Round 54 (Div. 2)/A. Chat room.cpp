@@ -1,23 +1,27 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 
-int main() {
-    string s;
-    cin >> s;
-
-    string target = "hello";
-    int j = 0;
-
-    for (char c : s) {
-        if (c == target[j]) {
-            j++;
-            if (j == 5) break;
-        }
+int gcd(int a, int b)
+{
+    while (b != 0)
+    {
+        int temp = b;
+        b = a % b;
+        a = temp;
     }
-
-    if (j == 5) cout << "YES";
-    else cout << "NO";
-
-    return 0;
+    return a;
 }
 
+int main()
+{
+    int n;
+    cin >> n;
+    while (n--)
+    {
+        int l, a, b;
+        cin >> l >> a >> b;
+        int g = gcd(b, l);
+        cout << l-1-((l-1-a)%g) << "\n";
+    }
+}

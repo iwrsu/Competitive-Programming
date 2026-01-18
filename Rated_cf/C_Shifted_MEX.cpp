@@ -125,7 +125,26 @@ int binpow(int a, int b) {
 
 void solve()
 {
-    
+    int n;
+    cin>>n;
+    vector<int> v(n);
+    cin>>v;
+    sort(all(v));
+
+    int ans=1,cur=1;
+    rep(i,1,n)
+    {
+        if(v[i]==v[i-1]) continue;
+        if(v[i]==v[i-1]+1)
+        {
+            ++cur;
+            ans=max(cur,ans);
+        }
+        else{
+            cur=1;
+        }
+    }
+    cout<<ans;
 }
 
 int32_t main()

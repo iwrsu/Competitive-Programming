@@ -125,33 +125,47 @@ int binpow(int a, int b) {
 
 void solve()
 {
-    int n;
-    cin>>n;
-    vi v(n);
+    int n, m, h;
+    cin>>n>>m>>h;
+
+    vector<int> v(n);
     cin>>v;
 
-    bool first=1;
-    first = v[0]%2;
-    bool second=!first;
-    rep(i,0,n)
+    vector<int> fake(n, 0);
+    vector<int> updt(n, -1);
+
+    int reset=-1;
+    int step=0;
+
+    while(m--)
     {
-        if(i%2==0)
-        {
-            if(v[i]%2!=first){
-                cout<<"NO";
-                return;
-            }
+        int b, c;
+        cin>>b>>c;
+        --b;
+
+        int cur;
+        if(updt[b]>reset)
+            cur=fake[b];
+        else
+            cur=v[b];
+
+        cur+=c;
+
+        if(cur>h) {
+            reset=step;
+        } else {
+            fake[b]=cur;
+            updt[b]=step;
         }
-        else{
-            if(v[i]%2!=second)
-            {
-                cout<<"NO";
-                return;
-            }
-        }
+        step++;
     }
 
-    cout<<"YES";
+    for(int i=0; i<n; i++) {
+        if(updt[i]>reset)
+            cout<<fake[i]<< " ";
+        else
+            cout<<v[i]<<" ";
+    }
 }
 
 int32_t main()

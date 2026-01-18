@@ -127,31 +127,14 @@ void solve()
 {
     int n;
     cin>>n;
-    vi v(n);
-    cin>>v;
-
-    bool first=1;
-    first = v[0]%2;
-    bool second=!first;
+    int ans=-1;
     rep(i,0,n)
     {
-        if(i%2==0)
-        {
-            if(v[i]%2!=first){
-                cout<<"NO";
-                return;
-            }
-        }
-        else{
-            if(v[i]%2!=second)
-            {
-                cout<<"NO";
-                return;
-            }
-        }
+        int x;
+        cin>>x;
+        ans=max(ans,x);
     }
-
-    cout<<"YES";
+    cout<<ans*n;
 }
 
 int32_t main()

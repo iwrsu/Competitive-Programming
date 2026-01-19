@@ -1,58 +1,46 @@
+/**
+ *    author:  Adham211 (;;)
+ *     date: 5/12/2025
+**/
 #include <bits/stdc++.h>
+#define  ll  long long
+#define  el '\n'
+#define cin(v) for(auto& i : v) cin >> i;
+#define all(vc) ((vc).begin()), ((vc).end())
+#define rall(vc) ((vc).rbegin()), ((vc).rend())
+#define code_it ios_base::sync_with_stdio(false),cout.tie(NULL),cin.tie(NULL);
+#define  pq1  priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>
 using namespace std;
-
-using ll = long long;
-using pii = pair<int,int>;
-using pll = pair<ll,ll>;
-
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)(x).size()
-#define rep(i,a,b) for (int i = (a); i < (b); i++)
-#define rrep(i,a,b) for (int i = (a); i >= (b); i--)
-#define pb push_back
-
-// Input/output helpers for vectors
-template<typename T>
-istream& operator>>(istream &in, vector<T> &v) { for (auto &x : v) in >> x; return in; }
-template<typename T>
-ostream& operator<<(ostream &out, const vector<T> &v) { for (auto &x : v) out << x << " "; return out; }
-
-const ll MOD = 1e9 + 7;
-const ll INFLL = 4e18;
-
-ll binpow(ll a, ll b, ll mod = MOD) {
-    ll res = 1;
-    while (b) {
-        if (b & 1) res = (res * a) % mod;
-        a = (a * a) % mod;
-        b >>= 1;
+void Ana_eh_elly_khalani_mazakrsh_wana_3andy_sanateen()
+{
+    int x, y, x2, y2;
+    cin >> x >> y >> x2 >> y2;
+    if(x2 == y2)
+    {
+        cout << "NO" << el;
+        return;
     }
-    return res;
+    if(y - x <=0 && y2 - x2 >0)
+    {
+        cout << "NO" << el;
+        return;
+    }
+    else if(y - x  >= 0 && y2 - x2 <0)
+    {
+        cout << "NO" << el;
+        return;
+    }
+    cout << "YES" << el;
 }
-
-void solve() {
-	long long x1, y1, x2, y2;
-        cin >> x1 >> y1 >> x2 >> y2;
-        
-        long long d1 = x1 - y1;
-        long long d2 = x2 - y2;
-        
-        if ((d1 > 0 && d2 > 0) || (d1 < 0 && d2 < 0)) {
-            cout << "YES\n";
-        } else {
-            cout << "NO\n";
-        }
-}
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
+int32_t main()
+{
+    code_it;
+    //freopen(".in", "r", stdin);
     int t = 1;
     cin >> t;
-    while (t--) {
-        solve();
-        cout << '\n';
+    while (t--) 
+    {
+          Ana_eh_elly_khalani_mazakrsh_wana_3andy_sanateen();
     }
     return 0;
 }

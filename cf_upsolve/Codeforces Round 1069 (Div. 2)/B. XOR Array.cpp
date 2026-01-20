@@ -31,8 +31,23 @@ ll binpow(ll a, ll b, ll mod = MOD) {
 }
 
 void solve() {
+	int n,l,r;
+	cin>>n>>l>>r;
+	--l,--r;
+	
+	vector<int> pref(n+1);
+	rep(i,0,n+1) pref[i]=i;
 
+	pref[r+1]=pref[l];
+
+	vector<int> ans(n);
+	rep(i,0,n)
+	{
+		ans[i]=pref[i+1]^pref[i];
+	}
+	for(int x:ans) cout<<x<<" ";
 }
+
 
 int main() {
     ios::sync_with_stdio(false);

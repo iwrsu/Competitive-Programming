@@ -1,187 +1,146 @@
-#include<bits/stdc++.h>
-#include<ext/pb_ds/assoc_container.hpp>
-#include<ext/pb_ds/tree_policy.hpp>
-
-using u64 = uint64_t;
-using u128 = __int128_t;
-
-u64 mul_mod(u64 a, u64 b, u64 mod) {
-    return (u128)a * b % mod;
-}
-
-u64 pow_mod(u64 a, u64 d, u64 mod) {
-    u64 res = 1;
-    while (d) {
-        if (d & 1) res = mul_mod(res, a, mod);
-        a = mul_mod(a, a, mod);
-        d >>= 1;
-    }
-    return res;
-}
-
-bool miller_rabin_check(u64 n, u64 a, u64 d, int s) {
-    u64 x = pow_mod(a % n, d, n);
-    if (x == 1 || x == n - 1) return true;
-    for (int r = 1; r < s; ++r) {
-        x = mul_mod(x, x, n);
-        if (x == n - 1) return true;
-    }
-    return false;
-}
-
-bool isPrime(u64 n) {
-    if (n < 2) return false;
-    for (u64 p : {2ull, 3ull, 5ull, 7ull, 11ull, 13ull, 17ull, 19ull, 23ull, 29ull, 31ull, 37ull}) {
-        if (n == p) return true;
-        if (n % p == 0) return (n == p);
-    }
-
-    u64 d = n - 1;
-    int s = 0;
-    while ((d & 1) == 0) {
-        d >>= 1;
-        ++s;
-    }
-
-    const u64 bases[] = {2ull, 325ull, 9375ull, 28178ull, 450775ull, 9780504ull, 1795265022ull};
-    for (u64 a : bases) {
-        if (a % n == 0) return true;
-        if (!miller_rabin_check(n, a, d, s)) return false;
-    }
-    return true;
-}
-
-using namespace __gnu_pbds;
-using namespace std;
-
-#define int long long
-#define ff first
-#define ss second
-#define pb push_back
-#define mp make_pair
-#define sz(x) ((int)(x).size())
-#define rep(i,a,b) for (int i = (a); i < (b); i++)
-#define rrep(i,a,b) for (int i = (a); i >= (b); i--)
-#define each(x,v) for (auto &x : v)
-#define all(v) (v).begin(), (v).end()
-#define mem(n,m) memset(n,m,sizeof(n))
-#define lb lower_bound
-#define ub upper_bound
-#define setbits(x) __builtin_popcountll(x)
-#define zrobits(x) __builtin_ctzll(x) // zeros before first 1
-#define gcd(x,y) __gcd(x,y)
-#define ps(x,y) fixed<<setprecision(y)<<x
-#define present(s,x) (s.find(x) != s.end())
-#define cpresent(s,x) (find(all(s),x) != s.end())
-#define MOD 1000000007
-#define EPSILON 1e-9
-#define PI 3.14159265358979323846
-#define INF 0x3f3f3f3f
-#define py cout<<"Yes"
-#define pn cout<<"No"
-#define SIZE 1000001
-
-// Bit manipulation macros
-#define GETBIT(n,i) (((n) >> (i)) & 1)
-#define SETBIT(n,i) ((n) | (1 << (i)))
-#define CLEARBIT(n,i) ((n) & ~(1 << (i)))
-#define SETBITAT(n,v,i) (((n) & ~(1 << (i))) | ((v) << (i)))
-#define TOGGLEBIT(n,i) ((n) ^ (1 << (i)))
-#define LSB(x) ((x) & (-(x)))           // least significant set bit
-#define MSB(x) (1 << (31 - __builtin_clz(x))) // most significant set bit
-#define ISPOW2(x) ((x) && !((x) & ((x)-1))) // check if power of 2
-
-using pii = pair<int,int>;
-using vi = vector<int>;
-using vpi = vector<pii>;
-
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-
-typedef tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update> PBDS;
-
-// Debug macro (prints only locally)
-#ifndef ONLINE_JUDGE
-#define dbg(x) cerr << #x << " = " << (x) << "\n"
-#else
-#define dbg(x)
-#endif
-
-// Input/output helpers for vectors
-template<typename T>
-istream& operator>>(istream &in, vector<T> &v) { for (auto &x : v) in >> x; return in; }
-template<typename T>
-ostream& operator<<(ostream &out, const vector<T> &v) { for (auto &x : v) out << x << " "; return out; }
-
-int binpow(int a, int b) {
-    int res = 1;
-    while (b > 0) {
-        if (b & 1)
-            res = (res * a)%MOD;
-        a = (a * a)%MOD;
-        b >>= 1;
-    }
-    return res;
-}
-
-void solve()
+#include <bits/stdc++.h>
+namespace staring
 {
-    int n;
-    cin>>n;
-    vector<int> v(n);
-    vector<int> even_pref;
-    cin>>v;
-    int x=0;
-    int odd_max=-1;
-    for(auto &i: v)
-    {
-        if(!(i&1)) {
-            x+=i;
-            even_pref.pb(x);
-        }
-        else odd_max=max(odd_max,i);
-    }
-    if(even_pref.size()==n)
-    {
-        rep(i,0,n) cout<<0<<" ";
-        return;
-    }
-    if(even_pref.size()==0)
-    {
-        rep(i,0,n)
-        {
-            if(i%2) cout<<0<<" ";
-            else cout<<odd_max<<" ";
-        }
-        return;
-    }
-    vector<int> ans;
-    ans.pb(odd_max);
-    for(int i=0;i<even_pref.size();i++)
-    {
-        // cout<<even_pref[i]<<" ";
-        ans.pb(even_pref[i]+odd_max);
-    }
-    // cout<<ans;
+    using namespace std;
+    using LL = long long;
+    using ULL = unsigned long long;
 
-    int flag=n-even_pref.size();
+    static constexpr auto& vzip = views::zip;
+    static constexpr auto& vtake = views::take;
+    static constexpr auto& vdrop = views::drop;
+    static constexpr auto& viota = views::iota;
+    static constexpr auto& vreve = views::reverse;
+    static constexpr auto& vfilt = views::filter;
+    static constexpr auto& vtran = views::transform;
+    static constexpr auto& rsort = ranges::sort;
+    static constexpr auto& rfill = ranges::fill;
+    static constexpr auto& rreve = ranges::reverse;
+    static constexpr auto& rmaxe = ranges::max_element;
+    static constexpr auto& rmine = ranges::min_element;
+    static constexpr auto& rlowb = ranges::lower_bound;
+    static constexpr auto& ruppb = ranges::upper_bound;
 
-    if(flag>=3)
+    template <typename TYPE>
+    int gmax(TYPE &x, const TYPE &y) {return x < y ? x = y, 1 : 0;}
+    template <typename TYPE>
+    int gmin(TYPE &x, const TYPE &y) {return y < x ? x = y, 1 : 0;}
+
+    static constexpr int SIZE = 1 << 20;
+    static char buffin[SIZE]{}, *pin1{}, *pin2{};
+    static char buffout[SIZE]{}, *pout{buffout};
+    static FILE *fin = stdin, *fout = stdout;
+
+    #define GETC (pin1 == pin2 && (pin2 = (pin1 = buffin) + fread(buffin, 1, SIZE, fin), pin1 == pin2) ? EOF : *pin1++)
+    #define PUTC (pout - buffout == SIZE && (fwrite(buffout, SIZE, 1, fout), pout = buffout), *pout++)
+
+    void fileO(string file)
     {
-        cout<<ans;
-        rep(i,0,n-ans.size()) cout<<ans[i+1]<<" ";
+        if (file.empty()) return;
+        fin = fopen((file + ".in").c_str(), "r");
+        fout = fopen((file + ".out").c_str(), "w");
     }
-    else{
-        cout<<ans;
-        rep(i,0,n-ans.size()) cout<<0<<" ";
+    int fileC()
+    {
+        fwrite(buffout, pout - buffout, 1, fout);
+        return fclose(fin), fclose(fout), 0;
     }
+    
+    template <typename TYPE>
+    void read(TYPE &x)
+    {
+        #define isdigit(c) (c >= 48 && c <= 57)
+        static int signf{0}, chin{0};
+        x = signf = 0, chin = GETC;
+        while (!isdigit(chin)) signf |= chin == '-', chin = GETC;
+        while (isdigit(chin)) x = (x << 3) + (x << 1) + (chin ^ 48), chin = GETC;
+        if (signf) x = -x;
+        #undef isdigit
+    }
+    template <>
+    void read(string &s)
+    {
+        #define isspace(c) (c <= 31 || c == 127)
+        static char chin{0}; s = "";
+        while (isspace(chin)) chin = GETC;
+        while (!isspace(chin)) s += chin, chin = GETC;
+        #undef isspace
+    }
+    template <typename TYPE, typename... TYPEs>
+    void read(TYPE &x, TYPEs &...xs)
+    {
+        read(x), read(xs...);
+    }
+
+    template <typename TYPE>
+    void write(TYPE x, char ch = '\n')
+    {
+        static int stack[64]{}, top{0};
+        if (x < 0) x = -x, PUTC = '-';
+        do stack[top ++] = x % 10, x /= 10; while(x);
+        while (top) PUTC = stack[--top] | 48;
+        if (ch) PUTC = ch;
+    }
+    template <>
+    void write(const char* s, char ch)
+    {
+        for (char c : span(s, strlen(s))) PUTC = c;
+        if (ch) PUTC = ch;
+    }
+    template <>
+    void write(string s, char ch)
+    {
+        for (char c : s) PUTC = c;
+        if (ch) PUTC = ch;
+    }
+    template <typename TYPE, typename... TYPEs>
+    void write(TYPE x, TYPEs ...xs)
+    {
+        write(x, ' '), write(xs...);
+    }
+
+    #undef GETC
+    #undef PUTC
+
+    void initialize();
+    void mainSolve();
+
+}using namespace staring;
+int main()
+{
+    fileO("");
+    int testId = 0, testCount = 1;
+    read(testCount);
+    // initialize();
+    while (testCount --)
+        mainSolve();
+    return fileC();
 }
 
-int32_t main()
+void staring::mainSolve()
 {
-   ios::sync_with_stdio(0);
-   cin.tie(0);
-   cout.tie(0);
-   int t=1;
-   cin>>t;
-   while(t--){ solve(); cout<<"\n"; }
+    int n; read(n);
+    vector arr(2, vector (0, 0));
+    for (int x; int i : viota(0, n))
+        read(x), arr[x & 1].push_back(x);
+    
+    rsort(arr[0] | vreve), rsort(arr[1] | vreve);
+    if (arr[1].empty())
+    {
+        for (int i : viota(0, n)) write(0, ' ');
+        return write("");
+    }
+    if (arr[0].empty())
+    {
+        for (int i : viota(1, n + 1))
+            write(i & 1 ? arr[1][0] : 0, ' ');
+        return write("");
+    }
+    int i = 1; LL res = arr[1][0];
+    write(res, ' ');
+    while (i <= arr[0].size())
+        res += arr[0][i - 1], write(res, ' '), ++i;
+    for (int u = 1, j = arr[1].size() - 1; j; j --, u ^= 1)
+        if (j > 1) write(u ? res - arr[0].back() : res, ' ');
+        else write(u ? 0 : res, ' ');
+    write("");
 }

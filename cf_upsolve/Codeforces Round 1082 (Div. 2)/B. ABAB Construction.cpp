@@ -34,7 +34,17 @@ ll binpow(ll a, ll b, ll mod = MOD) {
 }
 
 void solve() {
-    // CURSOR
+	int n;
+	cin>>n;
+	string s;
+	cin>>s;
+	string test="";
+	rep(i,0,n) {
+		if(i%2) test+='b';
+		else test+='a';
+	}
+	int l=0,r=n-1;
+	while(l)
 }
 
 int main() {

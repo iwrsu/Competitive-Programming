@@ -6,13 +6,11 @@ using pii = pair<int,int>;
 using pll = pair<ll,ll>;
 using int64 = long long;
 
-#define gcd(x,y) __gcd(x,y)
 #define all(x) (x).begin(), (x).end()
+#define sz(x) (int)(x).size()
 #define rep(i,a,b) for (int i = (a); i < (b); i++)
 #define rrep(i,a,b) for (int i = (a); i >= (b); i--)
 #define pb push_back
-#define ff first
-#define ss second
 
 // Input/output helpers for vectors
 template<typename T>
@@ -20,7 +18,7 @@ istream& operator>>(istream &in, vector<T> &v) { for (auto &x : v) in >> x; retu
 template<typename T>
 ostream& operator<<(ostream &out, const vector<T> &v) { for (auto &x : v) out << x << " "; return out; }
 
-static const ll MOD = 1e9 + 7;
+const ll MOD = 1e9 + 7;
 const ll INFLL = 4e18;
 
 ll binpow(ll a, ll b, ll mod = MOD) {
@@ -34,7 +32,19 @@ ll binpow(ll a, ll b, ll mod = MOD) {
 }
 
 void solve() {
-    // CURSOR
+	ll n;
+	cin>>n;
+	ll x;
+	cin>>x;
+	ll cur=x;
+	ll best=x;
+	rep(i,1,n)
+	{
+		cin>>x;
+		cur=max(x,cur+x);
+		best=max(best,cur);
+	}
+	cout<<best;
 }
 
 int main() {
@@ -42,7 +52,6 @@ int main() {
     cin.tie(nullptr);
 
     int t = 1;
-    cin >> t;
     while (t--) {
         solve();
         cout << '\n';

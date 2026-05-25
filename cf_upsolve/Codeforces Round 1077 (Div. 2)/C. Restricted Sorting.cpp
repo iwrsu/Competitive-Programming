@@ -34,7 +34,18 @@ ll binpow(ll a, ll b, ll mod = MOD) {
 }
 
 void solve() {
-    // CURSOR
+	int n;
+	cin>>n;
+	vector<int> v(n),a;
+	cin>>v;
+	a=v;
+	sort(all(a));
+	int ans=INT_MAX;
+	rep(i,0,n)
+	{
+		if(v[i]!=a[i]) ans=min(ans,max(v[i]-a[0],a[n-1]-v[i]));
+	}
+	cout<<(ans==INT_MAX?-1:ans);
 }
 
 int main() {

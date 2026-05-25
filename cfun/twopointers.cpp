@@ -1,9 +1,8 @@
 #include<bits/stdc++.h>
-#include<ext/pb_ds/assoc_container.hpp>
-#include<ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
+
 using namespace std;
 
+#define ll long long
 #define ff first
 #define ss second
 #define pb push_back
@@ -11,25 +10,18 @@ using namespace std;
 #define sz(x) ((int)(x).size())
 #define rep(i,a,b) for (int i = (a); i < (b); i++)
 #define rrep(i,a,b) for (int i = (a); i >= (b); i--)
-#define each(x,v) for (auto &x : v)
 #define all(v) (v).begin(), (v).end()
-#define mem(n,m) memset(n,m,sizeof(n))
 #define lb lower_bound
 #define ub upper_bound
 #define setbits(x) __builtin_popcountll(x)
 #define zrobits(x) __builtin_ctzll(x) // zeros before first 1
 #define gcd(x,y) __gcd(x,y)
-#define ps(x,y) fixed<<setprecision(y)<<x
-#define present(s,x) (s.find(x) != s.end())
-#define cpresent(s,x) (find(all(s),x) != s.end())
 #define MOD 1000000007
 #define EPSILON 1e-9
 #define PI 3.14159265358979323846
 #define INF 0x3f3f3f3f
 #define py cout<<"Yes"
 #define pn cout<<"No"
-#define SIZE 1000001
-
 // Bit manipulation macros
 #define GETBIT(n,i) (((n) >> (i)) & 1)
 #define SETBIT(n,i) ((n) | (1 << (i)))
@@ -40,17 +32,11 @@ using namespace std;
 #define MSB(x) (1 << (31 - __builtin_clz(x))) // most significant set bit
 #define ISPOW2(x) ((x) && !((x) & ((x)-1))) // check if power of 2
 
-using ll = long long;
 using pii = pair<int,int>;
-using pll = pair<ll,ll>;
 using vi = vector<int>;
-using vl = vector<ll>;
 using vpi = vector<pii>;
-using vpl = vector<pll>;
 
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-
-typedef tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update> PBDS;
 
 // Debug macro (prints only locally)
 #ifndef ONLINE_JUDGE
@@ -69,39 +55,59 @@ ll binpow(ll a, ll b) {
     ll res = 1;
     while (b > 0) {
         if (b & 1)
-            res = res * a;
-        a = a * a;
+            res = (res * a)%MOD;
+        a = (a * a)%MOD;
         b >>= 1;
     }
     return res;
 }
 
-struct custom_hash {
-    static uint64_t splitmix64(uint64_t x) {
-        x += 0x9e3779b97f4a7c15;
-        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-        return x ^ (x >> 31);
-    }
-    size_t operator()(uint64_t x) const {
-        static const uint64_t FIXED_RANDOM =
-            chrono::steady_clock::now().time_since_epoch().count();
-        return splitmix64(x + FIXED_RANDOM);
-    }
-};
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> v(n);
+    for(int i = 0; i < n; i++) cin >> v[i];
+    
+    int target;
+    cin >> target;
+    sort(all(v));
+    
+    int l = 0, r = n - 1;
+    long long ans = 0; // Use long long to avoid overflow in multiplication
 
+    while (l < r) {
+        int add = v[l] + v[r];
+        
+        if (add == target) {
+            // CASE: Both pointers point to the same value
+            if (v[l] == v[r]) {
+                long long count = r - l + 1;
+                ans += (count * (count - 1)) / 2;
+                break; // All pairs within this range are now counted
+            }
 
-void solve()
-{
-    ll n;
-    cin>>n;
-    unordered_set<ll, custom_hash> s;
-    rep(i,0,n){
-        ll x;
-        cin>>x;
-        s.insert(x);
+            // CASE: Pointers point to different values
+            int left_val = v[l], cnt1 = 0;
+            while (l < r && v[l] == left_val) {
+                cnt1++;
+                l++;
+            }
+            
+            int right_val = v[r], cnt2 = 0;
+            while (r >= l && v[r] == right_val) {
+                cnt2++;
+                r--;
+            }
+            ans += (1LL * cnt1 * cnt2);
+        } 
+        else if (add < target) {
+            l++;
+        } 
+        else {
+            r--;
+        }
     }
-    cout<<s.size();
+    cout << ans << endl;
 }
 
 int main()

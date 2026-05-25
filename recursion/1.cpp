@@ -33,8 +33,25 @@ ll binpow(ll a, ll b, ll mod = MOD) {
     return res;
 }
 
+void tri(vector<int> v, int n)
+{
+    if(n<1) return;
+
+    vector<int> temp(n-1);
+
+    rep(i,0,n-1) temp[i]=v[i]+v[i+1];
+
+    tri(temp,n-1);
+
+    rep(i,0,n) (i==n-1?cout<<"\n":cout<<v[i]<<" ");
+}
+
 void solve() {
-    // CURSOR
+	int n;
+	cin>>n;
+    vector<int> v(n);
+    cin>>v;
+    tri(v,n);
 }
 
 int main() {
@@ -42,10 +59,11 @@ int main() {
     cin.tie(nullptr);
 
     int t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--) {
         solve();
         cout << '\n';
     }
     return 0;
 }
+

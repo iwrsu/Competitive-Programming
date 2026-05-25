@@ -34,7 +34,10 @@ ll binpow(ll a, ll b, ll mod = MOD) {
 }
 
 void solve() {
-    // CURSOR
+	int n;
+	cin>>n;
+	if(n%2==0) cout<<"YES";
+	else cout<<"NO";
 }
 
 int main() {
@@ -42,7 +45,6 @@ int main() {
     cin.tie(nullptr);
 
     int t = 1;
-    cin >> t;
     while (t--) {
         solve();
         cout << '\n';

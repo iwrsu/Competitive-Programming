@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -6,13 +7,11 @@ using pii = pair<int,int>;
 using pll = pair<ll,ll>;
 using int64 = long long;
 
-#define gcd(x,y) __gcd(x,y)
 #define all(x) (x).begin(), (x).end()
+#define sz(x) (int)(x).size()
 #define rep(i,a,b) for (int i = (a); i < (b); i++)
 #define rrep(i,a,b) for (int i = (a); i >= (b); i--)
 #define pb push_back
-#define ff first
-#define ss second
 
 // Input/output helpers for vectors
 template<typename T>
@@ -20,7 +19,7 @@ istream& operator>>(istream &in, vector<T> &v) { for (auto &x : v) in >> x; retu
 template<typename T>
 ostream& operator<<(ostream &out, const vector<T> &v) { for (auto &x : v) out << x << " "; return out; }
 
-static const ll MOD = 1e9 + 7;
+const ll MOD = 1e9 + 7;
 const ll INFLL = 4e18;
 
 ll binpow(ll a, ll b, ll mod = MOD) {
@@ -34,7 +33,19 @@ ll binpow(ll a, ll b, ll mod = MOD) {
 }
 
 void solve() {
-    // CURSOR
+	int n;
+	cin>>n;
+	multiset<ll> towers;
+	ll x;
+	rep(i,0,n)
+	{
+		cin>>x;
+		auto it=towers.upper_bound(x);
+		if(it!=towers.end())
+			towers.erase(it);
+		towers.insert(x);
+	}
+	cout<<towers.size();
 }
 
 int main() {
@@ -42,7 +53,6 @@ int main() {
     cin.tie(nullptr);
 
     int t = 1;
-    cin >> t;
     while (t--) {
         solve();
         cout << '\n';

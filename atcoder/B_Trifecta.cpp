@@ -132,6 +132,7 @@ void solve()
     {
         int x;
         cin>>x;
+        
         v[i].ff=x;
         v[i].ss=i+1;
     }

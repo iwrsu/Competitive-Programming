@@ -1,9 +1,60 @@
 #include<bits/stdc++.h>
 #include<ext/pb_ds/assoc_container.hpp>
 #include<ext/pb_ds/tree_policy.hpp>
+
+using u64 = uint64_t;
+using u128 = __int128_t;
+
+u64 mul_mod(u64 a, u64 b, u64 mod) {
+    return (u128)a * b % mod;
+}
+
+u64 pow_mod(u64 a, u64 d, u64 mod) {
+    u64 res = 1;
+    while (d) {
+        if (d & 1) res = mul_mod(res, a, mod);
+        a = mul_mod(a, a, mod);
+        d >>= 1;
+    }
+    return res;
+}
+
+bool miller_rabin_check(u64 n, u64 a, u64 d, int s) {
+    u64 x = pow_mod(a % n, d, n);
+    if (x == 1 || x == n - 1) return true;
+    for (int r = 1; r < s; ++r) {
+        x = mul_mod(x, x, n);
+        if (x == n - 1) return true;
+    }
+    return false;
+}
+
+bool isPrime(u64 n) {
+    if (n < 2) return false;
+    for (u64 p : {2ull, 3ull, 5ull, 7ull, 11ull, 13ull, 17ull, 19ull, 23ull, 29ull, 31ull, 37ull}) {
+        if (n == p) return true;
+        if (n % p == 0) return (n == p);
+    }
+
+    u64 d = n - 1;
+    int s = 0;
+    while ((d & 1) == 0) {
+        d >>= 1;
+        ++s;
+    }
+
+    const u64 bases[] = {2ull, 325ull, 9375ull, 28178ull, 450775ull, 9780504ull, 1795265022ull};
+    for (u64 a : bases) {
+        if (a % n == 0) return true;
+        if (!miller_rabin_check(n, a, d, s)) return false;
+    }
+    return true;
+}
+
 using namespace __gnu_pbds;
 using namespace std;
 
+#define int long long
 #define ff first
 #define ss second
 #define pb push_back
@@ -40,13 +91,9 @@ using namespace std;
 #define MSB(x) (1 << (31 - __builtin_clz(x))) // most significant set bit
 #define ISPOW2(x) ((x) && !((x) & ((x)-1))) // check if power of 2
 
-using ll = long long;
 using pii = pair<int,int>;
-using pll = pair<ll,ll>;
 using vi = vector<int>;
-using vl = vector<ll>;
 using vpi = vector<pii>;
-using vpl = vector<pll>;
 
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
@@ -65,46 +112,39 @@ istream& operator>>(istream &in, vector<T> &v) { for (auto &x : v) in >> x; retu
 template<typename T>
 ostream& operator<<(ostream &out, const vector<T> &v) { for (auto &x : v) out << x << " "; return out; }
 
-ll binpow(ll a, ll b) {
-    ll res = 1;
+int binpow(int a, int b) {
+    int res = 1;
     while (b > 0) {
         if (b & 1)
-            res = res * a;
-        a = a * a;
+            res = (res * a)%MOD;
+        a = (a * a)%MOD;
         b >>= 1;
     }
     return res;
 }
 
-struct custom_hash {
-    static uint64_t splitmix64(uint64_t x) {
-        x += 0x9e3779b97f4a7c15;
-        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-        return x ^ (x >> 31);
-    }
-    size_t operator()(uint64_t x) const {
-        static const uint64_t FIXED_RANDOM =
-            chrono::steady_clock::now().time_since_epoch().count();
-        return splitmix64(x + FIXED_RANDOM);
-    }
-};
-
-
 void solve()
 {
-    ll n;
-    cin>>n;
-    unordered_set<ll, custom_hash> s;
-    rep(i,0,n){
-        ll x;
-        cin>>x;
-        s.insert(x);
+    int q;
+    cin>>q;
+    int vol=0;
+    bool flag=0;
+    while(q--)
+    {
+        int t;
+        cin>>t;
+        if(t==1) ++vol;
+        else if(t==2&&vol>0) --vol;
+        else if(t==3) flag=!flag;
+
+        // cout<<vol<<" ";
+        if(flag==1&&vol>=3) cout<<"Yes";
+        else cout<<"No";
+        cout<<"\n";
     }
-    cout<<s.size();
 }
 
-int main()
+int32_t main()
 {
    ios::sync_with_stdio(0);
    cin.tie(0);

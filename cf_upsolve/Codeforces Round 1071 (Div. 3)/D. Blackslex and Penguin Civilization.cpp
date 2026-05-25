@@ -34,8 +34,33 @@ ll binpow(ll a, ll b, ll mod = MOD) {
 }
 
 void solve() {
-    // CURSOR
+    int n;
+    cin >> n;
+
+    int N = 1 << n;
+    vector<int> ans;
+
+    function<void(int)> build = [&](int k) {
+        if (k == 0) {
+            ans.push_back(0);
+            return;
+        }
+        int half = 1 << (k - 1);
+
+        build(k - 1);
+        for (int i = 0; i < half; i++) {
+            ans.push_back(ans[i] | half);
+        }
+    };
+
+    build(n);
+
+    reverse(ans.begin(), ans.end());
+
+    for (int x : ans) cout << x << " ";
 }
+
+
 
 int main() {
     ios::sync_with_stdio(false);

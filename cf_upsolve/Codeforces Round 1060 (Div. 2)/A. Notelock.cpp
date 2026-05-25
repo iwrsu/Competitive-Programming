@@ -6,13 +6,11 @@ using pii = pair<int,int>;
 using pll = pair<ll,ll>;
 using int64 = long long;
 
-#define gcd(x,y) __gcd(x,y)
 #define all(x) (x).begin(), (x).end()
+#define sz(x) (int)(x).size()
 #define rep(i,a,b) for (int i = (a); i < (b); i++)
 #define rrep(i,a,b) for (int i = (a); i >= (b); i--)
 #define pb push_back
-#define ff first
-#define ss second
 
 // Input/output helpers for vectors
 template<typename T>
@@ -20,7 +18,7 @@ istream& operator>>(istream &in, vector<T> &v) { for (auto &x : v) in >> x; retu
 template<typename T>
 ostream& operator<<(ostream &out, const vector<T> &v) { for (auto &x : v) out << x << " "; return out; }
 
-static const ll MOD = 1e9 + 7;
+const ll MOD = 1e9 + 7;
 const ll INFLL = 4e18;
 
 ll binpow(ll a, ll b, ll mod = MOD) {
@@ -33,8 +31,32 @@ ll binpow(ll a, ll b, ll mod = MOD) {
     return res;
 }
 
+
 void solve() {
-    // CURSOR
+    int n, k;
+    cin >> n >> k;
+    string s;
+    cin >> s;
+
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        if (s[i] == '1') {                 // only 1s matter
+            bool vulnerable = true;
+            int cnt = k - 1;               // previous k-1 elements
+            int j = i - 1;
+
+            while (cnt-- && j >= 0) {
+                if (s[j] == '1') {
+                    vulnerable = false;    // protected by previous 1
+                    break;
+                }
+                --j;
+            }
+
+            if (vulnerable) ++ans;         // this 1 must be protected
+        }
+    }
+    cout << ans;
 }
 
 int main() {

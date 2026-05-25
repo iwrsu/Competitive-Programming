@@ -20,7 +20,7 @@ istream& operator>>(istream &in, vector<T> &v) { for (auto &x : v) in >> x; retu
 template<typename T>
 ostream& operator<<(ostream &out, const vector<T> &v) { for (auto &x : v) out << x << " "; return out; }
 
-static const ll MOD = 1e9 + 7;
+const ll MOD = 1e9 + 7;
 const ll INFLL = 4e18;
 
 ll binpow(ll a, ll b, ll mod = MOD) {

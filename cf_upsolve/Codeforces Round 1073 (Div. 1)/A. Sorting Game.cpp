@@ -34,7 +34,25 @@ ll binpow(ll a, ll b, ll mod = MOD) {
 }
 
 void solve() {
-    // CURSOR
+	int n;
+	cin>>n;
+	string s;
+	cin>>s;
+	string t=s;
+	sort(all(t));
+	if(t==s)
+	{
+		cout<<"Bob";
+		return;
+	}
+	vector<int> ans;
+	rep(i,0,n)
+	{
+		if(s[i]!=t[i]) ans.pb(i+1);
+	}
+	cout<<"Alice"<<"\n";
+	cout<<ans.size()<<"\n";
+	for(auto &i: ans) cout<<i<<" ";
 }
 
 int main() {

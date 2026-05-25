@@ -1,9 +1,8 @@
 #include<bits/stdc++.h>
-#include<ext/pb_ds/assoc_container.hpp>
-#include<ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
+
 using namespace std;
 
+#define ll long long
 #define ff first
 #define ss second
 #define pb push_back
@@ -11,25 +10,18 @@ using namespace std;
 #define sz(x) ((int)(x).size())
 #define rep(i,a,b) for (int i = (a); i < (b); i++)
 #define rrep(i,a,b) for (int i = (a); i >= (b); i--)
-#define each(x,v) for (auto &x : v)
 #define all(v) (v).begin(), (v).end()
-#define mem(n,m) memset(n,m,sizeof(n))
 #define lb lower_bound
 #define ub upper_bound
 #define setbits(x) __builtin_popcountll(x)
 #define zrobits(x) __builtin_ctzll(x) // zeros before first 1
 #define gcd(x,y) __gcd(x,y)
-#define ps(x,y) fixed<<setprecision(y)<<x
-#define present(s,x) (s.find(x) != s.end())
-#define cpresent(s,x) (find(all(s),x) != s.end())
 #define MOD 1000000007
 #define EPSILON 1e-9
 #define PI 3.14159265358979323846
 #define INF 0x3f3f3f3f
 #define py cout<<"Yes"
 #define pn cout<<"No"
-#define SIZE 1000001
-
 // Bit manipulation macros
 #define GETBIT(n,i) (((n) >> (i)) & 1)
 #define SETBIT(n,i) ((n) | (1 << (i)))
@@ -40,17 +32,11 @@ using namespace std;
 #define MSB(x) (1 << (31 - __builtin_clz(x))) // most significant set bit
 #define ISPOW2(x) ((x) && !((x) & ((x)-1))) // check if power of 2
 
-using ll = long long;
 using pii = pair<int,int>;
-using pll = pair<ll,ll>;
 using vi = vector<int>;
-using vl = vector<ll>;
 using vpi = vector<pii>;
-using vpl = vector<pll>;
 
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-
-typedef tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update> PBDS;
 
 // Debug macro (prints only locally)
 #ifndef ONLINE_JUDGE
@@ -69,8 +55,8 @@ ll binpow(ll a, ll b) {
     ll res = 1;
     while (b > 0) {
         if (b & 1)
-            res = res * a;
-        a = a * a;
+            res = (res * a)%MOD;
+        a = (a * a)%MOD;
         b >>= 1;
     }
     return res;
@@ -78,31 +64,46 @@ ll binpow(ll a, ll b) {
 
 struct custom_hash {
     static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
         x += 0x9e3779b97f4a7c15;
         x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
         x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
         return x ^ (x >> 31);
     }
     size_t operator()(uint64_t x) const {
-        static const uint64_t FIXED_RANDOM =
-            chrono::steady_clock::now().time_since_epoch().count();
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
         return splitmix64(x + FIXED_RANDOM);
     }
 };
-
+template <typename T, typename U> using safe_map = unordered_map<T, U, custom_hash>;
+template <typename T> using safe_set = unordered_set<T, custom_hash>;
 
 void solve()
 {
-    ll n;
-    cin>>n;
-    unordered_set<ll, custom_hash> s;
-    rep(i,0,n){
-        ll x;
-        cin>>x;
-        s.insert(x);
+    int n,k,p,m;
+    cin>>n>>k>>p>>m;
+    vector<int> v(n);
+    cin>>v;
+    int target=v[p-1];
+    ll c1=target;
+    if(p>k)
+    {
+        vector<int> v1(v.begin(),v.begin()+p-1);
+        sort(all(v1));
+        c1+=accumulate(v1.begin(),v1.begin()+(p-k),0LL);
     }
-    cout<<s.size();
+    if(m<c1){
+        cout<<0;
+        return;
+    }
+    m-=c1;
+    vector<int> v2;
+    rep(i,0,n) if(i!=p-1) v2.emplace_back(v[i]);
+    sort(all(v2));
+    ll c2=target+accumulate(v2.begin(),v2.begin()+(n-k),0LL);
+    cout<<1+(m/c2);
 }
+
 
 int main()
 {
@@ -110,6 +111,6 @@ int main()
    cin.tie(0);
    cout.tie(0);
    int t=1;
-//    cin>>t;
+   cin>>t;
    while(t--){ solve(); cout<<"\n"; }
 }
